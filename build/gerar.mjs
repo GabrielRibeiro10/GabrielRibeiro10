@@ -276,7 +276,7 @@ async function titulos() {
   const lista = [
     ['sobre', '01', 'Sobre mim', 'Quem está por trás dos projetos'],
     ['projetos', '02', 'Projetos', 'Sites no ar, do design ao deploy'],
-    ['stack', '03', 'Stack', 'Ferramentas do dia a dia'],
+    ['stack', '03', 'Stack', 'O que uso nos projetos no ar'],
     ['entrego', '04', 'O que eu entrego', 'Do primeiro esboço ao site no ar'],
   ];
   const temas = {
@@ -501,35 +501,60 @@ async function projetos() {
   });
 }
 
+// só o que está de fato nos projetos (PH Sports, Maria Festinha, portfólio e dashboard)
 async function stack() {
   const linhas = [
-    ['Frontend', 'interfaces e lojas', ['react', 'typescript', 'javascript', 'html5', 'css', 'tailwindcss', 'tanstack', 'vite']],
+    ['Linguagens', 'a base de tudo', ['typescript', 'javascript', 'html5', 'css', 'sql']],
+    ['Frontend', 'interfaces e lojas', ['react', 'tanstack', 'tailwindcss', 'shadcnui', 'vite', 'recharts']],
+    ['Animação e 3D', 'movimento e profundidade', ['gsap', 'threedotjs', 'lenis']],
     ['Backend e dados', 'APIs, login e banco', ['nodedotjs', 'express', 'supabase', 'postgresql', 'turso']],
-    ['Animação e deploy', 'movimento, 3D e publicação', ['gsap', 'threedotjs', 'lenis', 'vercel', 'git', 'github']],
-    ['IA e automação', 'agentes que aceleram', ['claude', 'codex', 'antigravity', 'maestri', 'lovable']],
+    ['Qualidade e testes', 'código que não quebra', ['vitest', 'testinglibrary', 'zod', 'eslint', 'prettier']],
+    ['Deploy e ferramentas', 'do commit ao ar', ['vercel', 'cloudflare', 'git', 'github', 'bun', 'npm']],
   ];
-  const W = 1200, H = 52 + linhas.length * 138 + 8;
+  const W = 1200, y0 = 96, passo = 86, H = y0 + linhas.length * passo + 26;
+  const xFio = 64, cy = (r) => y0 + r * passo + passo / 2;
   let corpo = '', n = 0;
   linhas.forEach(([nome, sub, lista], r) => {
-    const y0 = 52 + r * 138;
-    corpo += `<g class="sobe" style="--d:${(.1 + r * .12).toFixed(2)}s"><text x="56" y="${y0 + 40}" font-size="22" font-weight="600" letter-spacing="-.3" fill="${C.tinta}">${nome}</text>` +
-      `<text x="56" y="${y0 + 66}" font-size="16" fill="#6b6560">${sub}</text></g>`;
-    lista.forEach((slug, k) => {
-      const x = 300 + k * 104, y = y0;
-      corpo += `<g class="ladrilho" style="--d:${(.2 + n++ * .045).toFixed(2)}s"><rect x="${x}" y="${y}" width="80" height="80" rx="22" fill="${C.brasa950}"/>` +
-        icone(slug, x + 22, y + 22, 36, C.pessego) +
-        `<text x="${x + 40}" y="${y + 106}" font-size="15" font-weight="500" text-anchor="middle" fill="${C.cinza}">${esc(icones[slug].nome)}</text></g>`;
-    });
-    if (r < linhas.length - 1) corpo += `<line x1="56" y1="${y0 + 124}" x2="${W - 56}" y2="${y0 + 124}" stroke="${C.tinta}" stroke-opacity=".07"/>`;
+    const c = cy(r);
+    corpo += `<circle cx="${xFio}" cy="${c}" r="8" fill="${C.brasa900}" stroke="${C.laranja2}" stroke-opacity=".5" stroke-width="2"/>` +
+      `<circle class="acende" style="--d:${(r * .5).toFixed(2)}s" cx="${xFio}" cy="${c}" r="3.5" fill="${C.laranja2}"/>` +
+      `<g class="sobe" style="--d:${(.1 + r * .08).toFixed(2)}s"><text class="mono" x="92" y="${c - 3}" font-size="15" font-weight="500" fill="${C.laranja2}">0${r + 1}</text>` +
+      `<text x="122" y="${c - 3}" font-size="22" font-weight="600" letter-spacing="-.3" fill="#fff">${esc(nome)}</text>` +
+      `<text x="122" y="${c + 21}" font-size="15.5" fill="${C.pessego}" fill-opacity=".55">${esc(sub)}</text></g>`;
+    let x = 352;
+    for (const slug of lista) {
+      const nomeIc = icones[slug].nome, w = Math.round(largura(nomeIc, 17) + 58);
+      corpo += `<g class="chip" style="--d:${(.25 + n++ * .035).toFixed(2)}s"><rect x="${x}" y="${c - 23}" width="${w}" height="46" rx="23" fill="#1f0e07" stroke="${C.pessego}" stroke-opacity=".16"/>` +
+        icone(slug, x + 15, c - 9.5, 19, C.laranja2) +
+        `<text x="${x + 43}" y="${c + 6}" font-size="17" font-weight="500" fill="${C.pessego50}">${esc(nomeIc)}</text></g>`;
+      x += w + 10;
+    }
+    if (r < linhas.length - 1) corpo += `<line x1="92" y1="${y0 + (r + 1) * passo}" x2="${W - 56}" y2="${y0 + (r + 1) * passo}" stroke="${C.pessego}" stroke-opacity=".07"/>`;
   });
+  const usada = 'Usada na PH Sports, na Maria Festinha, neste portfólio e no dashboard';
   await arte('stack', {
     w: W, h: H,
-    titulo: 'Stack. Frontend: React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, TanStack e Vite. Backend e dados: Node.js, Express, Supabase, PostgreSQL e libSQL. Animação e deploy: GSAP, Three.js, Lenis, Vercel, Git e GitHub. IA e automação: Claude Code, Codex, Antigravity, Maestri e Lovable.',
-    css: `.ladrilho{transform-box:fill-box;transform-origin:center;animation:ladrilho .7s cubic-bezier(.2,.8,.3,1.25) var(--d) both}@keyframes ladrilho{from{opacity:0;transform:scale(.6)}}`,
-    defs: `<clipPath id="cartao"><rect width="${W}" height="${H}" rx="28"/></clipPath>`,
+    titulo: 'Stack. Linguagens: TypeScript, JavaScript, HTML, CSS e SQL. Frontend: React, TanStack, Tailwind CSS, shadcn/ui, Vite e Recharts. Animação e 3D: GSAP, Three.js e Lenis. Backend e dados: Node.js, Express, Supabase, PostgreSQL e libSQL. Qualidade e testes: Vitest, Testing Library, Zod, ESLint e Prettier. Deploy e ferramentas: Vercel, Cloudflare, Git, GitHub, Bun e npm.',
+    css:
+      `.chip{animation:chip .6s cubic-bezier(.2,.8,.3,1.2) var(--d) both}@keyframes chip{from{opacity:0;transform:translateX(-14px)}}` +
+      `.corre{stroke-dasharray:14 100;animation:corre 4.2s cubic-bezier(.5,0,.5,1) infinite}@keyframes corre{from{stroke-dashoffset:14}to{stroke-dashoffset:-100}}` +
+      `.acende{transform-box:fill-box;transform-origin:center;animation:acende 3s ease-in-out var(--d) infinite both}@keyframes acende{0%,100%{opacity:.25;transform:scale(.7)}30%{opacity:1;transform:scale(1.25)}}`,
+    defs:
+      `<clipPath id="cartao"><rect width="${W}" height="${H}" rx="28"/></clipPath>` +
+      `<linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.brasa950}"/><stop offset="1" stop-color="#2a1107"/></linearGradient>` +
+      `<radialGradient id="holofote"><stop offset="0" stop-color="${C.laranja}" stop-opacity=".22"/><stop offset="1" stop-color="${C.laranja}" stop-opacity="0"/></radialGradient>` +
+      `<linearGradient id="fioLuz" gradientUnits="userSpaceOnUse" x1="0" y1="${cy(0)}" x2="0" y2="${cy(linhas.length - 1)}"><stop offset="0" stop-color="${C.pessego}"/><stop offset="1" stop-color="${C.laranja2}"/></linearGradient>` +
+      `<filter id="brilhoFio" x="-400%" y="-5%" width="900%" height="110%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>` +
+      pontos('pontos', C.pessego, .06),
     corpo:
-      `<rect width="${W}" height="${H}" rx="28" fill="${C.painel}"/>` +
-      `<rect x=".75" y=".75" width="${W - 1.5}" height="${H - 1.5}" rx="27.25" fill="none" stroke="#e7e1da" stroke-width="1.5"/>` + corpo,
+      `<g clip-path="url(#cartao)"><rect width="${W}" height="${H}" fill="url(#fundo)"/><rect width="${W}" height="${H}" fill="url(#pontos)"/>` +
+      `<circle cx="1050" cy="${H}" r="420" fill="url(#holofote)"/></g>` +
+      `<rect x=".75" y=".75" width="${W - 1.5}" height="${H - 1.5}" rx="27.25" fill="none" stroke="${C.pessego}" stroke-opacity=".1" stroke-width="1.5"/>` +
+      `<g class="surge" style="--d:.05s"><text x="${xFio - 8}" y="58" font-size="15" font-weight="600" letter-spacing="3.2" fill="${C.laranja2}">STACK EM PRODUÇÃO</text>` +
+      `<text x="${W - 56}" y="58" font-size="16" font-weight="500" text-anchor="end" fill="${C.pessego}" fill-opacity=".6">${usada}</text></g>` +
+      `<line x1="${xFio}" y1="${cy(0)}" x2="${xFio}" y2="${cy(linhas.length - 1)}" stroke="${C.pessego}" stroke-opacity=".16" stroke-width="2"/>` +
+      `<line class="corre" pathLength="100" x1="${xFio}" y1="${cy(0)}" x2="${xFio}" y2="${cy(linhas.length - 1)}" stroke="url(#fioLuz)" stroke-width="3" stroke-linecap="round" filter="url(#brilhoFio)"/>` +
+      corpo,
   });
 }
 

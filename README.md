@@ -45,11 +45,11 @@ Sou **Gabriel Ribeiro**, desenvolvedor web full stack em Ilhabela (SP). Crio **s
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/titulo-stack-escuro.svg">
-  <img src="assets/titulo-stack-claro.svg" width="100%" alt="(03) Stack: ferramentas do dia a dia">
+  <img src="assets/titulo-stack-claro.svg" width="100%" alt="(03) Stack: o que uso nos projetos no ar">
 </picture>
 
 <p>
-  <img src="assets/stack.svg" width="100%" alt="Frontend: React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, TanStack e Vite. Backend e dados: Node.js, Express, Supabase, PostgreSQL e libSQL. Animação e deploy: GSAP, Three.js, Lenis, Vercel, Git e GitHub. IA e automação: Claude Code, Codex, Antigravity, Maestri e Lovable.">
+  <img src="assets/stack.svg" width="100%" alt="Stack em produção. Linguagens: TypeScript, JavaScript, HTML, CSS e SQL. Frontend: React, TanStack, Tailwind CSS, shadcn/ui, Vite e Recharts. Animação e 3D: GSAP, Three.js e Lenis. Backend e dados: Node.js, Express, Supabase, PostgreSQL e libSQL. Qualidade e testes: Vitest, Testing Library, Zod, ESLint e Prettier. Deploy e ferramentas: Vercel, Cloudflare, Git, GitHub, Bun e npm.">
 </p>
 
 <br>
