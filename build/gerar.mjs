@@ -217,7 +217,6 @@ async function cabecalho() {
       `<circle cx="1140" cy="60" r="240" fill="url(#brilho2)"/>` +
       `<g fill="none" stroke="${C.pessego}" stroke-opacity=".1"><circle cx="950" cy="250" r="180"/><circle cx="950" cy="250" r="265"/><circle cx="950" cy="250" r="350"/></g>` +
       `<g class="gira"><circle cx="950" cy="250" r="222" fill="none" stroke="${C.laranja2}" stroke-opacity=".4" stroke-width="1.6" stroke-dasharray="2 14" stroke-linecap="round"/></g>` +
-      `<g class="sobe" style="--d:.55s"><image href="${await imagem('foto-recorte.webp')}" x="800" y="14" width="300" height="450"/></g>` +
       // marca e nome
       marca({ x: 60, y: 40, s: 1.15, traco: 'url(#gr)', espessura: 4.4, desenha: true, d: '.1s' }) +
       `<g class="surge" style="--d:.35s"><line x1="134" y1="50" x2="134" y2="84" stroke="${C.pessego}" stroke-opacity=".3"/>` +
